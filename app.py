@@ -56,7 +56,7 @@ def criar_livro():
 
 # - Excluir
 
-
+@app.route( '/livros/<int:id>', methods=['DELETE'])
 def excluir_livro(id):
     for indice, livro in enumerate(livros):
         if livro.get('id') == id:
