@@ -1,52 +1,25 @@
 from flask import Flask, jsonify, request
+from bd import Livros
+
 app = Flask(__name__)
 
-livros = [
-    {
-        'id': 1,
-        'titulo': 'O senhor dos Anéis - A Sociedade do Anel',
-        'author': 'J.R.R Tolkien'
-    },
-    {
-        'id': 2,
-        'titulo': 'O senhor dos Anéis - As Duas Torres',
-        'author': 'J.R.R Tolkien'
-    },
-    {
-        'id': 3,
-        'titulo': 'O senhor dos Anéis - O Retorno do Rei',
-        'author': 'J.R.R Tolkien'
-    },
-    {
-        'id': 4,
-        'titulo': 'O senhor dos Anéis - A Sociedade do Anel',
-        'author': 'J.R.R Tolkien'
-    },
-    {
-        'id': 5,
-        'titulo': 'O senhor dos Anéis - As Duas Torres',
-        'author': 'J.R.R Tolkien'
-    },
-    {
-        'id': 6,
-        'titulo': 'O senhor dos Anéis - O Retorno do Rei',
-        'author': 'J.R.R Tolkien'
-    }
-]
-
-# Criar uma api para:
 # - Consultar todos
 
 
 @app.route('/livros', methods=['GET'])
 def obter_livros():
-    return jsonify(livros)
+    return jsonify(Livros)
+
+
+app.run()
+
+# Criar uma api para:
 
 
 # - Consultar por id
 @app.route('/livros/<int:id>', methods=['GET'])
 def obter_livros_id(id):
-    for livro in livros:
+    for livro in Livros:
         if livro.get('id') == id:
             return jsonify(livro)
 
@@ -55,29 +28,28 @@ def obter_livros_id(id):
 @app.route('/livros/<int:id>', methods=['PUT'])
 def editar_livro_por_id(id):
     livro_alterado = request.get_json()
-    for indice, livro in enumerate(livros):
+    for indice, livro in enumerate(Livros):
         if livro.get('id') == id:
-            livros[indice].update(livro_alterado)
-            return jsonify(livros[indice])
+            Livros[indice].update(livro_alterado)
+            return jsonify(Livros[indice])
+
 
 # - Criar
-
-
 @app.route('/livros', methods=['POST'])
 def criar_livro():
     novo_livro = request.get_json()
-    livros.append(novo_livro)
-    return jsonify(livros)
+    Livros.append(novo_livro)
+    return jsonify(Livros)
+
 
 # - Excluir
-
-@app.route( '/livros/<int:id>', methods=['DELETE'])
+@app.route('/livros/<int:id>', methods=['DELETE'])
 def excluir_livro(id):
-    for indice, livro in enumerate(livros):
+    for indice, livro in enumerate(Livros):
         if livro.get('id') == id:
-            del livros[indice]
+            del Livros[indice]
 
-    return jsonify(livros)
+    return jsonify(Livros)
 
 
 app.run(port=5000, host='localhost', debug=True)
