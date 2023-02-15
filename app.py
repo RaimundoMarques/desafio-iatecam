@@ -4,20 +4,15 @@ from bd import Livros
 app = Flask(__name__)
 
 # - Consultar todos
-
-
-@app.route('/livros', methods=['GET'])
+@app.get('/')
 def obter_livros():
     return jsonify(Livros)
-
-
-app.run()
 
 # Criar uma api para:
 
 
 # - Consultar por id
-@app.route('/livros/<int:id>', methods=['GET'])
+@app.get('/livros/<int:id>')
 def obter_livros_id(id):
     for livro in Livros:
         if livro.get('id') == id:
@@ -25,7 +20,7 @@ def obter_livros_id(id):
 
 
 # - Editar
-@app.route('/livros/<int:id>', methods=['PUT'])
+@app.put('/livros/<int:id>')
 def editar_livro_por_id(id):
     livro_alterado = request.get_json()
     for indice, livro in enumerate(Livros):
@@ -35,7 +30,7 @@ def editar_livro_por_id(id):
 
 
 # - Criar
-@app.route('/livros', methods=['POST'])
+@app.post('/livros')
 def criar_livro():
     novo_livro = request.get_json()
     Livros.append(novo_livro)
@@ -43,7 +38,7 @@ def criar_livro():
 
 
 # - Excluir
-@app.route('/livros/<int:id>', methods=['DELETE'])
+@app.delete('/livros/<int:id>')
 def excluir_livro(id):
     for indice, livro in enumerate(Livros):
         if livro.get('id') == id:
@@ -52,4 +47,4 @@ def excluir_livro(id):
     return jsonify(Livros)
 
 
-app.run(port=5000, host='localhost', debug=True)
+app.run(port=5001, host='localhost', debug=True)
