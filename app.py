@@ -4,6 +4,8 @@ from bd import Livros
 app = Flask(__name__)
 
 # - Consultar todos
+
+
 @app.get('/')
 def obter_livros():
     return jsonify(Livros)
